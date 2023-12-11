@@ -1,0 +1,68 @@
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title> Website</title>
+	<link rel="stylesheet" type="text/css" href="login.css">
+    </head>
+    <body>
+      <div class="background-img"></div>
+
+        <div class="center">
+          <h1>Login</h1>
+          <form method="post">
+            <div class="txt_field">
+              <input type="text" required>
+              <span></span>
+              <label>Username</label>
+            </div>
+            <div class="txt_field">
+              <input type="password" required>
+              <span></span>
+              <label>Password</label>
+            </div>
+            <div class="pass">Forgot Password?</div>
+            <input type="submit" value="Login">
+            <div class="signup_link">
+              Not a member? <a href="signup.html">Signup</a>
+            </div>
+          </form>
+        </div>
+<script>
+  function validateForm() {
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value.trim();
+
+    // Basic validation
+    if (username === '' || password === '') {
+      alert('Please fill in all fields');
+      return false;
+    }
+
+
+
+    return true; 
+  }
+
+  function validateForm() {
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value.trim();
+    const agree = document.getElementById('agree').checked;
+
+    if (email === '' || password === '') {
+      alert('Please fill in all fields');
+      return false;
+    }
+
+    if (!agree) {
+      alert('Please agree to the terms of service');
+      return false;
+    }
+
+    
+
+    return true;
+  }
+
+</script>
+
+</body>
