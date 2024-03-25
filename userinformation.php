@@ -1,17 +1,40 @@
 <?php
 
-$connection = mysqli_connect('localhost', 'root');
+session_start();
 
-mysqli_select_db($connection, "youtubedata");
+require('config.php');
 
-$user = $_POST['user'];
-$phonenumber = $_POST['phonenumber'];
-$email = $_POST['email'];
-$message = $_POST['message'];
 
-$query = "INSERT INTO 'userinfodata'('user', 'phonenumber','email' , 'message') VALUES ('$user' , '$phonenumber' , '$email' , '$message')";
+try {
+    // Define the PDO connection string
+    $pdo = new PDO('mysql:host=localhost;dbname=projekt', 'root', '');
 
-mysqli_query($connection , $query);
+    // Set the PDO to throw exceptions on error
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-echo "MESSAGE IS SENT";
+    // Prepare the SQL statement
+    $stmt = $pdo->prepare('INSERT INTO userinfodata(user, phonenumber, email, message) VALUES (:user, :phonenumber, :email, :message)');
+
+    // Bind the parameters
+    $stmt->bindParam(':user', $user);
+    $stmt->bindParam(':phonenumber', $phonenumber);
+    $stmt->bindParam(':email', $email);
+    $stmt->bindParam(':message', $message);
+
+// Set the values
+$user = $_POST['your_name'];
+$phonenumber = $_POST['your_phone'];
+$email = $_POST['your_email'];
+$message = $_POST['comments'];
+
+    // Execute the SQL statement
+    $stmt->execute();
+
+    // Output a success message
+    echo "MESSAGE IS SENT";
+} catch (PDOException $e) {
+    // Handle any PDOExceptions that occur during database operations
+    echo "Error: " . $e->getMessage();
+}
+
 ?>

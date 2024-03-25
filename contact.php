@@ -1,3 +1,36 @@
+<?php
+session_start();
+
+require('config2.php');
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    try {
+        $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        $stmt = $pdo->prepare('INSERT INTO userinfodata (name, phone, email, message) VALUES (:name, :phone, :email, :message)');
+
+        $name = $_POST['name'] ?? '';
+        $phone = $_POST['phone'] ?? '';
+        $email = $_POST['email'] ?? '';
+        $message = $_POST['message'] ?? '';
+
+        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':phone', $phone);
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':message', $message);
+
+        $stmt->execute();
+
+        echo "Message sent successfully!";
+    } catch (PDOException $e) {
+        echo "PDO Error: " . $e->getMessage(); // Display the PDO error message
+    }
+}
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,33 +38,26 @@
 
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1," />
-
   <title>PieceofCake</title>
-
-
   <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.5.9/slick.min.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.5.9/slick-theme.min.css" />
-
   <link href="https://fonts.googleapis.com/css?family=Poppins:400,600,700&display=swap" rel="stylesheet" />
-
   <link rel="stylesheet" href="css/slick-theme.css" />
   <link href="css/font-awesome.min.css" rel="stylesheet" />
   <link href="css/style.css" rel="stylesheet" />
   <link href="css/responsive.css" rel="stylesheet" />
-
 </head>
 
 <body class="sub_page">
 
   <div class="main_body_content">
-
     <div class="hero_area">
       <!-- header section strats -->
       <header class="header_section">
         <div class="container-fluid">
           <nav class="navbar navbar-expand-lg custom_nav-container ">
-            <a class="navbar-brand" href="index.html">
+            <a class="navbar-brand" href="index.php">
                <a href="#">
                       
             </a>
@@ -39,45 +65,32 @@
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span class=""> </span>
             </button>
-
             <div class="collapse navbar-collapse " id="navbarSupportedContent">
               <ul class="navbar-nav ml-auto">
                 <li class="nav-item ">
-                  <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+                  <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="about.html"> About</a>
+                  <a class="nav-link" href="about.php"> About</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="cake.html">Recipesofcakes</a>
+                  <a class="nav-link" href="cake.php">Recipesofcakes</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="reviews.html">Reviews</a>
+                  <a class="nav-link" href="reviews.php">Reviews</a>
                 </li>
                 <li class="nav-item active">
-                  <a class="nav-link" href="contact.html">Contact Us</a>
+                  <a class="nav-link" href="contact.php">Contact Us</a>
                 </li>
               </ul>
-              <div class="quote_btn-container">
-                <form class="form-inline">
-                  <button class="btn  my-2 my-sm-0 nav_search-btn" type="submit">
-                    <i class="fa fa-search" aria-hidden="true"></i>
-                  </button>
-                </form>
-                <a href="">
-                  <i class="fa fa-user" aria-hidden="true"></i>
-                </a>
-              </div>
+
             </div>
           </nav>
         </div>
       </header>
       <!-- end header section -->
     </div>
-
-
     <!-- contact section -->
-
     <section class="contact_section layout_padding">
       <div class="container-fluid">
         <div class="row">
@@ -88,25 +101,24 @@
                   Contact Us
                 </h2>
               </div>
-              <form action="userinformation.php" method="post">
-                <div>
-                  <input type="text" placeholder="Full Name " />
-                </div>
-                <div>
-                  <input type="text" placeholder="Phone number" />
-                </div>
-                <div>
-                  <input type="email" placeholder="Email" />
-                </div>
-                <div>
-                  <input type="text" class="message-box" placeholder="Message" />
-                </div>
-                <div class="d-flex ">
-                  <button>
-                    SEND NOW
-                  </button>
-                </div>
-              </form>
+              <form action="dashboardcontactus.php" method="post">
+    <div>
+        <input type="text" name="name" placeholder="Full Name" required>
+    </div>
+    <div>
+        <input type="text" name="phone" placeholder="Phone number" required>
+    </div>
+    <div>
+        <input type="email" name="email" placeholder="Email" required>
+    </div>
+    <div>
+        <textarea name="message" placeholder="Message" required></textarea>
+    </div>
+    <div class="d-flex ">
+        <button type="submit" name="submit">SEND NOW</button>
+    </div>
+</form>
+
             </div>
           </div>
           <div class="col-md-6  px-0">
@@ -119,10 +131,7 @@
         </div>
       </div> 
     </section>
-
     <!-- end contact section -->
-
-
     <!-- info section -->
     <section class="info_section layout_padding2">
       <div class="container">
@@ -138,7 +147,6 @@
             </div>
           </div>
           <div class="col-md-4 col-lg-3">
-
             <div class="social_box">
               <a href="https://www.facebook.com/">
                 <i class="fa fa-facebook" aria-hidden="true"></i>
@@ -238,11 +246,8 @@
         </div>
       </div>
     </section>
-
     <!-- end info_section -->
-
   </div>
-
   <!-- footer section -->
   <footer class="container-fluid footer_section">
     <div class="container">
@@ -260,7 +265,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.5.9/slick.min.js"></script>
   <script src="js/custom.js"></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap"></script>
- 
+
+
 
 </body>
 

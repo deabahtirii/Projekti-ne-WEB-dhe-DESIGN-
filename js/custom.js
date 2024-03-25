@@ -10,7 +10,7 @@ getYear();
 
 
 // slick slider
-$('.cake_container').slick({
+$('.chocolate_container').slick({
     infinite: true,
     center: true,
     slidesToShow: 3,
@@ -33,7 +33,7 @@ $('.cake_container').slick({
     ]
 });
 
-//google_map js
+/** google_map js **/
 
 function myMap() {
     var mapProp = {
@@ -42,14 +42,3 @@ function myMap() {
     };
     var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
 }
-
-
-  document.getElementById('search-form').addEventListener('submit', function(event) {
-    event.preventDefault(); 
-    const searchValue = document.getElementById('search-input').value;
-    
-   
-    console.log('Search query:', searchValue);
-  });
-
-
